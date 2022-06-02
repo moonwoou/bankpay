@@ -1,0 +1,94 @@
+<!-- 금융결제원 PG서비스  Sample 결제취소 페이지 -->
+<html>
+<head>
+	<title>Bankpay Sample 취소페이지</title>	
+	<style type="text/css">
+	<!--
+	td {  font-family: "돋움"; font-size: 11pt;}
+	-->
+	</style>
+
+	<script type="text/javascript">
+	
+	function cancelRequest(form)
+	{	
+		if(form.hd_serial_no.value.length != 7){
+			alert("거래번호 오류");
+			return;
+		}
+			
+		if(form.tx_amount.value.length < 3){
+			alert("거래금액 오류");
+			return;
+		}
+		
+		if(form.hd_pay_date.value.length != 8){
+			alert("출금일자 오류");
+			return;
+		}
+		
+		form.submit();
+		return;
+	}
+	
+	
+	function GetToday()
+	{
+		today = new Date();
+		year = today.getYear();
+		month = today.getMonth() + 1;
+		if(month < 10) {
+			month = "0" + month;
+		}
+		date = today.getDate();
+		if(date < 10) {
+			date = "0" + date;
+		}		
+		document.cancel.hd_pay_date.value = year + "" + month + "" + date;
+		return;
+	}
+	//-->
+	</script>
+</head>
+
+<body bgcolor="ivory" text="black" link="blue" vlink="purple" alink="red" onLoad="javascript:GetToday()">
+
+<br/><br/>
+<p align="center"><font color="blue"><b>PG시스템  거래 취소 테스트 페이지</b></font></p>
+<br/>
+
+<!-- 아래 cancel.jsp의 경로를 이용기관 환경에 맞게 수정 -->
+<form name="cancel" method="post" action="cancel.jsp">
+
+<table border="1" align="center">
+	<tr>
+		<!-- PG 서비스 이용 승인번호 -->
+		<td>업체승인번호(8자리)</td>
+		<td><input type="text" name="hd_approve_no" maxlength="8" size="16" value="11000001" readonly></td>
+	</tr>
+	<tr>
+    	<!-- 원거래 거래번호 -->
+		<td>거래번호(7자리)</td>
+		<td><input type="text" name="hd_serial_no" maxlength="7" size="16" value=""></td>
+	</tr>
+	<tr>
+	    <!-- 원거래일자 -->
+		<td>출금 일자(YYYYMMDD)</td>
+		<td><input type="text" name="hd_pay_date" maxlength="8" size="16"></td>
+	</tr>
+	<tr>
+		<!-- 원거래 금액 -->
+		<td>거래 금액</td>
+		<td><input type="text" name="tx_amount" maxlength="12" size="16"></td>
+	</tr>
+</table>
+
+<p align="center">
+<input type="button" value="취소요청" onClick="javascript:cancelRequest(cancel);"> &nbsp;
+<input type="reset" value="재입력">
+</p>
+
+</form>
+
+</body>
+</html>
